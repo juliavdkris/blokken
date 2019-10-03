@@ -19,6 +19,7 @@ import core.views
 
 urlpatterns = [
 	path('', core.views.index),
+	path('leren', core.views.leren),
 
 	path('admin/', admin.site.urls),
 ]

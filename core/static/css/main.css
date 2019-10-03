@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
+
+:root {
+	--background-dark: rgb(30, 30, 30); /* #181a1b */
+	--accent-dark: rgb(65, 130, 165);
+	/* --accent-lighter-dark: rgb(80, 145, 180); */
+	--color-dark: rgb(230, 230, 230);
+}
+
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+	background-color: var(--background-dark);
+	color: var(--color-dark);
+}
+
+.container {
+	padding: 0 10vw;
+}
