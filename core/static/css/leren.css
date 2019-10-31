@@ -16,9 +16,12 @@
 }
 
 .leercontainer .question {
-
+	font-size: 1.5em;
+	margin-bottom: 0.5em;
 }
 
 .leercontainer .answer {
 	width: 70%;
+	font-size: 2em;
+	text-align: center;
 }
