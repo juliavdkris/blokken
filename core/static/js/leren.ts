@@ -64,7 +64,6 @@ function blockify(questions: object[], blockLength: number) {
 // Mode 5: repeat level 1, 2, 3, 4, 5
 let mode: number = 0;
 
-// TODO: fix levels
 function updateQueue() {
 	let queue: object[] = [];
 	if (mode === 0) {

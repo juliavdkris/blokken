@@ -1,10 +1,5 @@
 var input = document.getElementsByClassName("answer")[0];
-// Level 0: new block
-// Level 1: hard (seen, but wrong on first try)
-// Level 2: familiar (correct on first try)
-// Level 3: known
-// Level 4: known well
-var Question = /** @class */ (function () {
+var Question = (function () {
     function Question(from, to) {
         this.level = null;
         this.noRepeat = false;
@@ -30,16 +25,11 @@ var blocks = blockify(questions, 3);
 function shuffle(arr) {
     return arr.sort(function () { return Math.random() - 0.5; });
 }
-/**
- * Divides a question array in blocks that can then be used for Leitner System stuff
- * @param questions array of Question objects
- * @param blockLength number of questions in a block
- */
 function blockify(questions, blockLength) {
     var blocks = [];
-    for (var block = 0; block < Math.ceil(questions.length / blockLength); block++) { // Create blocks
+    for (var block = 0; block < Math.ceil(questions.length / blockLength); block++) {
         blocks[block] = [];
-        for (var i = 0; i < blockLength; i++) { // Fill block with blockLength amount of questions
+        for (var i = 0; i < blockLength; i++) {
             var index = block * blockLength + i;
             var question = questions[index];
             if (question)
@@ -48,29 +38,22 @@ function blockify(questions, blockLength) {
     }
     return blocks;
 }
-// Mode 0: add new block to level 0
-// Mode 1: repeat level 1
-// Mode 2: repeat level 1, 2
-// Mode 3: repeat level 1, 2, 3
-// Mode 4: repeat level 1, 2, 3, 4
-// Mode 5: repeat level 1, 2, 3, 4, 5
 var mode = 0;
-// TODO: fix levels
 function updateQueue() {
     var queue = [];
     if (mode === 0) {
         var block = blocks.pop();
-        queue = queue.concat(block); // Add block to queue
+        queue = queue.concat(block);
     }
     else if (mode >= 1 && mode <= 5) {
-        for (var _i = 0, questions_1 = questions; _i < questions_1.length; _i++) { // Add all questions with a level under the mode
+        for (var _i = 0, questions_1 = questions; _i < questions_1.length; _i++) {
             var question = questions_1[_i];
             if (question.level && question.level <= mode) {
                 queue.push(question);
             }
         }
     }
-    mode = (mode === 5) ? 0 : mode + 1; // Increment mode and flip back to 0 when at 5
+    mode = (mode === 5) ? 0 : mode + 1;
     return queue;
 }
 function checkAnswer(answer) {
