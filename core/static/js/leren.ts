@@ -56,28 +56,27 @@ function blockify(questions: object[], blockLength: number) {
 }
 
 
-// Mode 0: add new block to level 0
 // Mode 1: repeat level 1
 // Mode 2: repeat level 1, 2
 // Mode 3: repeat level 1, 2, 3
 // Mode 4: repeat level 1, 2, 3, 4
-// Mode 5: repeat level 1, 2, 3, 4, 5
-let mode: number = 0;
+let mode: number = 1;
 
 function updateQueue() {
-	let queue: object[] = [];
-	if (mode === 0) {
+	if (blocks) {
 		let block = blocks.pop();
-		queue = queue.concat(block);  // Add block to queue
+		if (block) queue = queue.concat(block);  // Add block to queue
 	}
-	else if (mode >= 1 && mode <= 5) {
-		for (const question of questions) {  // Add all questions with a level under the mode
-			if (question.level && question.level <= mode) {
-				queue.push(question);
-			}
+
+	for (const question of questions) {  // Add all questions with a level under the mode
+		if (question.level && question.level <= mode) {
+			queue.push(question);
 		}
 	}
-	mode = (mode === 5) ? 0 : mode+1;  // Increment mode and flip back to 0 when at 5
+
+	// TODO: queue length 0 ==> weird fuckery
+
+	if (mode === 4) mode = 1; else mode++;  // Increment mode and flip back to 0 when at 4
 	return queue;
 }
 
@@ -94,14 +93,15 @@ input.addEventListener('keyup', function(e){
 
 function nextLevel(queue) {
 	for (const question of queue) {
-		question.level++;
+		if (question.level < 4) question.level++;
 	}
 }
 
 
 let queue = [];
 for (let i = 0; i < 20; i++) {
+	queue = [];
 	queue = updateQueue();
-	console.log(queue);
 	nextLevel(queue);
+	console.log(queue);
 }

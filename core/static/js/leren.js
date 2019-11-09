@@ -38,22 +38,23 @@ function blockify(questions, blockLength) {
     }
     return blocks;
 }
-var mode = 0;
+var mode = 1;
 function updateQueue() {
-    var queue = [];
-    if (mode === 0) {
+    if (blocks) {
         var block = blocks.pop();
-        queue = queue.concat(block);
+        if (block)
+            queue = queue.concat(block);
     }
-    else if (mode >= 1 && mode <= 5) {
-        for (var _i = 0, questions_1 = questions; _i < questions_1.length; _i++) {
-            var question = questions_1[_i];
-            if (question.level && question.level <= mode) {
-                queue.push(question);
-            }
+    for (var _i = 0, questions_1 = questions; _i < questions_1.length; _i++) {
+        var question = questions_1[_i];
+        if (question.level && question.level <= mode) {
+            queue.push(question);
         }
     }
-    mode = (mode === 5) ? 0 : mode + 1;
+    if (mode === 4)
+        mode = 1;
+    else
+        mode++;
     return queue;
 }
 function checkAnswer(answer) {
@@ -66,12 +67,14 @@ input.addEventListener('keyup', function (e) {
 function nextLevel(queue) {
     for (var _i = 0, queue_1 = queue; _i < queue_1.length; _i++) {
         var question = queue_1[_i];
-        question.level++;
+        if (question.level < 4)
+            question.level++;
     }
 }
 var queue = [];
 for (var i = 0; i < 20; i++) {
+    queue = [];
     queue = updateQueue();
-    console.log(queue);
     nextLevel(queue);
+    console.log(queue);
 }
