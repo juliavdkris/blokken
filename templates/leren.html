@@ -8,16 +8,15 @@
 
 
 {% block content %}
-	<div class="leercontainer">
-		<div class="top">
-			Goed: 5/12 woorden
-			<progress value="30" max="100"></progress>
-			Nog 7 woorden
-		</div>
 
+	<div class="leercontainer-top">
+		<progress value="30" max="100"></progress>
+		<div class="right">TODO: Extra info?</div>
+	</div>
+	<div class="leercontainer">
 		<div class="question">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam, repudiandae?</div>
 
-		<input type="text" class="answer">
+		<input type="text" class="answer" placeholder="Answer">
 	</div>
 
 	<script src="{% static 'js/leren.js' %}"></script>
