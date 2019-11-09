@@ -56,6 +56,15 @@ function blockify(questions: object[], blockLength: number) {
 }
 
 
+// Check if a question with a certain level exists in the questions array
+function checkLevel(level: number) {
+	for (const question of questions) {
+		if (question.level <= level) return true;
+	}
+	return false;
+}
+
+
 // Mode 1: repeat level 1
 // Mode 2: repeat level 1, 2
 // Mode 3: repeat level 1, 2, 3
@@ -68,13 +77,15 @@ function updateQueue() {
 		if (block) queue = queue.concat(block);  // Add block to queue
 	}
 
+	while (!checkLevel(mode)) {
+		if (mode === 4) mode = 1; else mode++;  // Increment mode and flip back to 0 when at 4
+	}
+
 	for (const question of questions) {  // Add all questions with a level under the mode
 		if (question.level && question.level <= mode) {
 			queue.push(question);
 		}
 	}
-
-	// TODO: queue length 0 ==> weird fuckery
 
 	if (mode === 4) mode = 1; else mode++;  // Increment mode and flip back to 0 when at 4
 	return queue;
