@@ -1,18 +1,25 @@
 .leercontainer {
-	background-color: var(--accent-dark);
-	border-radius: 0.3em;
+	background-color: rgb(65, 130, 165);
+	border-radius: 0 0 0.3em 0.3em;
 	padding: 1em;
-	margin-top: 5em;
 
 	text-align: center;
 }
 
-.leercontainer .top {
-	/* background-color: var(--accent-lighter-dark); */
-	border: 0.1em solid white;
-	border-radius: 0.25em;
+.leercontainer-top {
+	background-color: rgb(55, 120, 155);
+	border-radius: 0.25em 0.3em 0 0;
+
+	margin-top: 5em;
 	padding: 1em;
-	margin-bottom: 0.5em;
+}
+.leercontainer-top progress {
+	height: 1em;
+	width: 30em;
+	border: none;
+}
+.leercontainer-top .right {
+	float: right;
 }
 
 .leercontainer .question {
@@ -23,5 +30,5 @@
 .leercontainer .answer {
 	width: 70%;
 	font-size: 2em;
-	text-align: center;
+	padding: 0.3em;
 }
