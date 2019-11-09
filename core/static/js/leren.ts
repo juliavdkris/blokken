@@ -42,7 +42,7 @@ function shuffle(arr) {
  * @param questions array of Question objects
  * @param blockLength number of questions in a block
  */
-function blockify(questions: object[], blockLength: number) {
+function blockify(questions: Question[], blockLength: number) {
 	let blocks = [];
 	for (let block = 0; block < Math.ceil(questions.length / blockLength); block++) {  // Create blocks
 		blocks[block] = [];
@@ -88,31 +88,50 @@ function updateQueue() {
 	}
 
 	if (mode === 4) mode = 1; else mode++;  // Increment mode and flip back to 0 when at 4
+	questions = shuffle(questions);  // Randomise question order every time a new queue is added
 	return queue;
 }
 
+
 function checkAnswer(answer) {
+	let correct = currentQuestion.to.toLowerCase() === answer.toLowerCase();
+
+	if (correct) {
+		console.log("You rock!");
+	}
+	else {
+		console.log("You suck.");
+	}
 }
 
 
-input.addEventListener('keyup', function(e){
-	if (e.keyCode === 13) {
-		checkAnswer(input.value);
+function nextQuestion() {
+	while (queue.length === 0) {
+		queue = updateQueue()
 	}
-});
+	currentQuestion = queue.pop();
+	document.getElementsByClassName("question")[0].innerHTML = currentQuestion.from;
+	input.value = "";
+}
 
 
-function nextLevel(queue) {
+function nextLevel(queue: Question[]) {
 	for (const question of queue) {
 		if (question.level < 4) question.level++;
 	}
 }
 
 
+// Initialise things
 let queue = [];
-for (let i = 0; i < 20; i++) {
-	queue = [];
-	queue = updateQueue();
-	nextLevel(queue);
-	console.log(queue);
-}
+queue = updateQueue();
+
+let currentQuestion: Question = null;
+nextQuestion();
+
+input.addEventListener("keyup", function(e){
+	if (e.keyCode === 13) {
+		checkAnswer(input.value);
+		nextQuestion();
+	}
+});

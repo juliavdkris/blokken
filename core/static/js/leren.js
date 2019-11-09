@@ -69,15 +69,26 @@ function updateQueue() {
         mode = 1;
     else
         mode++;
+    questions = shuffle(questions);
     return queue;
 }
 function checkAnswer(answer) {
-}
-input.addEventListener('keyup', function (e) {
-    if (e.keyCode === 13) {
-        checkAnswer(input.value);
+    var correct = currentQuestion.to.toLowerCase() === answer.toLowerCase();
+    if (correct) {
+        console.log("You rock!");
     }
-});
+    else {
+        console.log("You suck.");
+    }
+}
+function nextQuestion() {
+    while (queue.length === 0) {
+        queue = updateQueue();
+    }
+    currentQuestion = queue.pop();
+    document.getElementsByClassName("question")[0].innerHTML = currentQuestion.from;
+    input.value = "";
+}
 function nextLevel(queue) {
     for (var _i = 0, queue_1 = queue; _i < queue_1.length; _i++) {
         var question = queue_1[_i];
@@ -86,9 +97,12 @@ function nextLevel(queue) {
     }
 }
 var queue = [];
-for (var i = 0; i < 20; i++) {
-    queue = [];
-    queue = updateQueue();
-    nextLevel(queue);
-    console.log(queue);
-}
+queue = updateQueue();
+var currentQuestion = null;
+nextQuestion();
+input.addEventListener("keyup", function (e) {
+    if (e.keyCode === 13) {
+        checkAnswer(input.value);
+        nextQuestion();
+    }
+});
