@@ -1,0 +1,25 @@
+{% extends 'base/generic.html' %}
+{% load static %}
+
+
+{% block head %}
+	<link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock head %}
+
+
+{% block content %}
+	<div class="block-top">
+		<div class="right">
+			<input type="text" class="listname" placeholder="List name">
+		</div>
+	</div>
+
+	<div class="block">
+		<div class="wordpair">
+			<input type="text" class="from" placeholder="From">
+			<input type="text" class="to" placeholder="To">
+		</div>
+		<button class="newitem">Add new item</button>
+	</div>
+
+{% endblock content %}

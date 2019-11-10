@@ -1,0 +1,35 @@
+.block-top {
+	height: 2em;
+}
+
+.block-top .listname {
+	font-size: 1em;
+	padding: 0.3em;
+}
+
+/* TODO: make the input thingies nice */
+.block .from {
+	width: 40%;
+	font-size: 2em;
+	padding: 0.3em;
+	/* float: left; */
+}
+
+.block .to {
+	width: 40%;
+	font-size: 2em;
+	padding: 0.3em;
+	/* float: right; */
+}
+
+.block .newitem{
+	width: 10%;
+	text-align: center;
+    padding: 1em;
+}
+
+/* button.newitem {
+	display: block;
+	clear: both;
+	margin: 1em auto;
+} */
