@@ -1,4 +1,5 @@
 let input = <HTMLInputElement>document.getElementsByClassName("answer")[0];
+let notification = <HTMLDivElement>document.getElementsByClassName("notification")[0];
 
 // Level 0: new block
 // Level 1: hard (seen, but wrong on first try)
@@ -95,19 +96,28 @@ function updateQueue() {
 
 function checkAnswer(answer) {
 	let correct = currentQuestion.to.toLowerCase() === answer.toLowerCase();
+	let delay = 1000;
 
 	if (correct) {
-		console.log("You rock!");
+		notification.innerHTML = "Correct!";
+		notification.setAttribute("color", "good");
 	}
 	else {
-		console.log("You suck.");
+		notification.innerHTML = `Wrong! The correct answer was: ${currentQuestion.to}`;
+		notification.setAttribute("color", "bad");
+		delay = 2000;
 	}
+	notification.setAttribute("show", "true");
+	setTimeout(function() {
+		notification.setAttribute("show", "false");
+		nextQuestion();
+	}, delay);
 }
 
 
 function nextQuestion() {
 	while (queue.length === 0) {
-		queue = updateQueue()
+		queue = updateQueue();
 	}
 	currentQuestion = queue.pop();
 	document.getElementsByClassName("question")[0].innerHTML = currentQuestion.from;
@@ -132,6 +142,5 @@ nextQuestion();
 input.addEventListener("keyup", function(e){
 	if (e.keyCode === 13) {
 		checkAnswer(input.value);
-		nextQuestion();
 	}
 });

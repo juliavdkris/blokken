@@ -1,4 +1,5 @@
 var input = document.getElementsByClassName("answer")[0];
+var notification = document.getElementsByClassName("notification")[0];
 var Question = (function () {
     function Question(from, to) {
         this.level = null;
@@ -74,12 +75,21 @@ function updateQueue() {
 }
 function checkAnswer(answer) {
     var correct = currentQuestion.to.toLowerCase() === answer.toLowerCase();
+    var delay = 1000;
     if (correct) {
-        console.log("You rock!");
+        notification.innerHTML = "Correct!";
+        notification.setAttribute("color", "good");
     }
     else {
-        console.log("You suck.");
+        notification.innerHTML = "Wrong! The correct answer was: " + currentQuestion.to;
+        notification.setAttribute("color", "bad");
+        delay = 2000;
     }
+    notification.setAttribute("show", "true");
+    setTimeout(function () {
+        notification.setAttribute("show", "false");
+        nextQuestion();
+    }, delay);
 }
 function nextQuestion() {
     while (queue.length === 0) {
@@ -103,6 +113,5 @@ nextQuestion();
 input.addEventListener("keyup", function (e) {
     if (e.keyCode === 13) {
         checkAnswer(input.value);
-        nextQuestion();
     }
 });
