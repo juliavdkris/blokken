@@ -1,7 +1,7 @@
 .leercontainer {
 	background-color: rgb(65, 130, 165);
 	border-radius: 0 0 0.3em 0.3em;
-	padding: 1em;
+	padding: 5em;
 
 	text-align: center;
 }
@@ -10,12 +10,12 @@
 	background-color: rgb(55, 120, 155);
 	border-radius: 0.25em 0.3em 0 0;
 
-	margin-top: 10em;
+	margin-top: 5em;
 	padding: 1em;
 }
 .leercontainer-top progress {
 	height: 1em;
-	width: 30em;
+	width: 20vw;
 	border: none;
 }
 .leercontainer-top .right {
@@ -32,4 +32,27 @@
 	width: 70%;
 	font-size: 2em;
 	padding: 0.3em;
+}
+
+
+.notification {
+	display: block;
+	text-align: center;
+	opacity: 0;
+
+	font-size: 1.5em;
+
+	padding: 0.75em;
+	margin: 1em auto;
+	border-radius: 0.2em;
+	max-width: 20vw;
+}
+.notification[show=true] {
+	opacity: 100;
+}
+.notification[color=good] {
+	background-color: #91b437;
+}
+.notification[color=bad] {
+	background-color: #C42021;
 }
