@@ -9,17 +9,18 @@
 
 {% block content %}
 	<div class="block-top">
+		<input type="text" class="listname" placeholder="List name">
 		<div class="right">
-			<input type="text" class="listname" placeholder="List name">
+			<button onclick="createList()">Create list!</button> <!-- TODO: vertically center this button somehow -->
 		</div>
 	</div>
 
 	<div class="block">
 		<div class="wordpair">
 			<input type="text" class="from" placeholder="From">
-			<input type="text" class="to" placeholder="To">
+			<input type="text" class="to" placeholder="To" onfocus="checkSelection()">
 		</div>
-		<button class="newitem">Add new item</button>
 	</div>
 
+	<script src="{% static 'js/lists.js' %}"></script>
 {% endblock content %}

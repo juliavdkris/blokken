@@ -28,13 +28,13 @@ function shuffle(arr) {
 }
 function blockify(questions, blockLength) {
     var blocks = [];
-    for (var block = 0; block < Math.ceil(questions.length / blockLength); block++) {
-        blocks[block] = [];
+    for (var block_1 = 0; block_1 < Math.ceil(questions.length / blockLength); block_1++) {
+        blocks[block_1] = [];
         for (var i = 0; i < blockLength; i++) {
-            var index = block * blockLength + i;
+            var index = block_1 * blockLength + i;
             var question = questions[index];
             if (question)
-                blocks[block].push(question);
+                blocks[block_1].push(question);
         }
     }
     return blocks;
@@ -50,9 +50,9 @@ function checkLevel(level) {
 var mode = 1;
 function updateQueue() {
     if (blocks) {
-        var block = blocks.pop();
-        if (block)
-            queue = queue.concat(block);
+        var block_2 = blocks.pop();
+        if (block_2)
+            queue = queue.concat(block_2);
     }
     while (!checkLevel(mode)) {
         if (mode === 4)

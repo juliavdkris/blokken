@@ -46,3 +46,13 @@ body {
 .block-top .right {
 	float: right;
 }
+
+button {
+	color: white;
+	background-color: rgba(0,0,0,0);  /* Transparent background */
+	font-size: 1.5em;
+	text-decoration: none;
+	border: solid 0.1em white;
+	border-radius: 0.25em;
+	padding: 0.15em;
+}
