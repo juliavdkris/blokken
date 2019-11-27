@@ -76,14 +76,20 @@ function updateQueue() {
 function checkAnswer(answer) {
     var correct = currentQuestion.to.toLowerCase() === answer.toLowerCase();
     var delay = 1000;
+    if (currentQuestion.level === null)
+        currentQuestion.level = 1;
     if (correct) {
         notification.innerHTML = "Correct!";
         notification.setAttribute("color", "good");
+        if (currentQuestion.level < 4)
+            currentQuestion.level++;
     }
     else {
         notification.innerHTML = "Wrong! The correct answer was: " + currentQuestion.to;
         notification.setAttribute("color", "bad");
         delay = 2000;
+        if (currentQuestion.level > 1)
+            currentQuestion.level--;
     }
     notification.setAttribute("show", "true");
     setTimeout(function () {
@@ -99,11 +105,10 @@ function nextQuestion() {
     document.getElementsByClassName("question")[0].innerHTML = currentQuestion.from;
     input.value = "";
 }
-function nextLevel(queue) {
-    for (var _i = 0, queue_1 = queue; _i < queue_1.length; _i++) {
-        var question = queue_1[_i];
-        if (question.level < 4)
-            question.level++;
+function debug_levels() {
+    for (var _i = 0, questions_3 = questions; _i < questions_3.length; _i++) {
+        var q = questions_3[_i];
+        console.log(q.from + " " + q.level);
     }
 }
 var queue = [];
