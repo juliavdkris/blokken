@@ -20,6 +20,7 @@ import core.views
 urlpatterns = [
 	path('', core.views.index),
 	path('leren', core.views.leren),
+	path('lists/new', core.views.newlist),
 
 	path('admin/', admin.site.urls),
 ]

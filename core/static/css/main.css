@@ -27,3 +27,32 @@ body {
 	color: white;
 	margin-left: 0.5em;
 }
+
+.block {
+	background-color: rgb(65, 130, 165);
+	border-radius: 0 0 0.3em 0.3em;
+	padding: 5em;
+
+	text-align: center;
+}
+
+.block-top {
+	background-color: rgb(55, 120, 155);
+	border-radius: 0.3em 0.3em 0 0;
+
+	margin-top: 5em;
+	padding: 1em;
+}
+.block-top .right {
+	float: right;
+}
+
+button {
+	color: white;
+	background-color: rgba(0,0,0,0);  /* Transparent background */
+	font-size: 1.5em;
+	text-decoration: none;
+	border: solid 0.1em white;
+	border-radius: 0.25em;
+	padding: 0.15em;
+}

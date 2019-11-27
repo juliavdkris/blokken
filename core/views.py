@@ -8,3 +8,7 @@ def index(request):
 
 def leren(request):
 	return render(request, 'leren.html')
+
+
+def newlist(request):
+	return render(request, 'newlist.html')

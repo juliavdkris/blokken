@@ -1,0 +1,26 @@
+{% extends 'base/generic.html' %}
+{% load static %}
+
+
+{% block head %}
+	<link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock head %}
+
+
+{% block content %}
+	<div class="block-top">
+		<input type="text" class="listname" placeholder="List name">
+		<div class="right">
+			<button onclick="createList()">Create list!</button> <!-- TODO: vertically center this button somehow -->
+		</div>
+	</div>
+
+	<div class="block">
+		<div class="wordpair">
+			<input type="text" class="from" placeholder="From">
+			<input type="text" class="to" placeholder="To" onfocus="checkSelection()">
+		</div>
+	</div>
+
+	<script src="{% static 'js/lists.js' %}"></script>
+{% endblock content %}
