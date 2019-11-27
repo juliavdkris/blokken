@@ -19,16 +19,16 @@ class Question {
 }
 
 let questions = shuffle([
-	new Question("q1", "a1"),
-	new Question("q2", "a2"),
-	new Question("q3", "a3"),
-	new Question("q4", "a4"),
-	new Question("q5", "a5"),
-	new Question("q6", "a6"),
-	new Question("q7", "a7"),
-	new Question("q8", "a8"),
-	new Question("q9", "a9"),
-	new Question("q10", "a10"),
+    new Question("hoi", "tok"),
+    new Question("dag", "kad"),
+    new Question("hond", "lop"),
+    new Question("kat", "dop"),
+    new Question("huis", "rap"),
+    new Question("straat", "vad"),
+    new Question("poep", "lok"),
+    new Question("bal", "op"),
+    new Question("boek", "kalom"),
+    new Question("fles", "des"),
 ]);
 let blocks = blockify(questions, 3);
 
