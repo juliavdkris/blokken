@@ -1,3 +1,14 @@
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var input = document.getElementsByClassName("answer")[0];
 var notification = document.getElementsByClassName("notification")[0];
 var Question = (function () {
@@ -26,6 +37,37 @@ var blocks = blockify(questions, 3);
 function shuffle(arr) {
     return arr.sort(function () { return Math.random() - 0.5; });
 }
+function mergeJSON(list, progress) {
+    list.sort(function (a, b) { return (a.id > b.id) ? 1 : -1; });
+    progress.sort(function (a, b) { return (a.id > b.id) ? 1 : -1; });
+    var merged = [];
+    for (var _i = 0, list_1 = list; _i < list_1.length; _i++) {
+        var question = list_1[_i];
+        var id = question.id;
+        var progressItem = void 0;
+        for (var _a = 0, progress_1 = progress; _a < progress_1.length; _a++) {
+            var item = progress_1[_a];
+            if (item.id === id)
+                progressItem = item;
+        }
+        if (progressItem)
+            merged.push(__assign(__assign({}, question), progressItem));
+    }
+    return merged;
+}
+function splitJSON(questions) {
+    var progress = [];
+    for (var _i = 0, questions_1 = questions; _i < questions_1.length; _i++) {
+        var item = questions_1[_i];
+        progress.push({
+            "id": item.id,
+            "level": item.level,
+            "noRepeat": item.noRepeat,
+            "extraRepeat": item.extraRepeat
+        });
+    }
+    return progress;
+}
 function blockify(questions, blockLength) {
     var blocks = [];
     for (var block = 0; block < Math.ceil(questions.length / blockLength); block++) {
@@ -40,8 +82,8 @@ function blockify(questions, blockLength) {
     return blocks;
 }
 function checkLevel(level) {
-    for (var _i = 0, questions_1 = questions; _i < questions_1.length; _i++) {
-        var question = questions_1[_i];
+    for (var _i = 0, questions_2 = questions; _i < questions_2.length; _i++) {
+        var question = questions_2[_i];
         if (question.level <= level)
             return true;
     }
@@ -60,8 +102,8 @@ function updateQueue() {
         else
             mode++;
     }
-    for (var _i = 0, questions_2 = questions; _i < questions_2.length; _i++) {
-        var question = questions_2[_i];
+    for (var _i = 0, questions_3 = questions; _i < questions_3.length; _i++) {
+        var question = questions_3[_i];
         if (question.level && question.level <= mode) {
             queue.push(question);
         }

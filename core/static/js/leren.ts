@@ -39,6 +39,45 @@ function shuffle(arr) {
 
 
 /**
+ * Merge two JSON object arrays from the List and Test models together into one question array that is used in this script
+ * @param list Question JSON from a 'List' instance
+ * @param progress Progress JSON from a 'Test' instance
+ */
+function mergeJSON(list, progress) {
+	list.sort((a, b) => (a.id > b.id) ? 1 : -1);  // Sort both arrays by ID
+	progress.sort((a, b) => (a.id > b.id) ? 1 : -1);
+	let merged = [];
+
+	for (let question of list) {
+		let id = question.id;
+		let progressItem;
+		for (let item of progress) {  // Search for progress item with an ID matching the question
+			if (item.id === id) progressItem = item;
+		}
+		if (progressItem) merged.push({...question, ...progressItem});
+	}
+	return merged;
+}
+
+/**
+ * Split the questions array used in this script into 'list' and 'progress' (and progress is then saved in the database)
+ * @param questions
+ */
+function splitJSON(questions) {
+	let progress = [];
+	for (let item of questions) {
+		progress.push({
+			"id": item.id,
+			"level": item.level,
+			"noRepeat": item.noRepeat,
+			"extraRepeat": item.extraRepeat
+		});
+	}
+	return progress;
+}
+
+
+/**
  * Divides a question array in blocks that can then be used for Leitner System stuff
  * @param questions array of Question objects
  * @param blockLength number of questions in a block
