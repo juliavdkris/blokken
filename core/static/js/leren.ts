@@ -9,7 +9,7 @@ let notification = <HTMLDivElement>document.getElementsByClassName("notification
 class Question {
 	from: string;
 	to: string;
-	level: number = null;
+	level: number = null;  // TODO: get question data from two sources (List->question for [from,to], Test->progress for [level,noRepeat,extraRepeat])
 	noRepeat: boolean = false;
 	extraRepeat: boolean = false;
 	constructor(from: string, to: string) {
