@@ -84,14 +84,17 @@ function checkAnswer(answer) {
 	let correct = currentQuestion.to.toLowerCase() === answer.toLowerCase();
 	let delay = 1000;
 
+	if (currentQuestion.level === null) currentQuestion.level = 1;
 	if (correct) {
 		notification.innerHTML = "Correct!";
 		notification.setAttribute("color", "good");
+		if (currentQuestion.level < 4) currentQuestion.level++;
 	}
 	else {
 		notification.innerHTML = `Wrong! The correct answer was: ${currentQuestion.to}`;
 		notification.setAttribute("color", "bad");
 		delay = 2000;
+		if (currentQuestion.level > 1) currentQuestion.level--;
 	}
 	notification.setAttribute("show", "true");
 	setTimeout(function() {
@@ -111,11 +114,12 @@ function nextQuestion() {
 }
 
 
-// function nextLevel(queue: Question[]) {
-// 	for (const question of queue) {
-// 		if (question.level < 4) question.level++;
-// 	}
-// }
+function debug_levels() {
+	for (let q of questions) {
+		console.log(q.from + " " + q.level);
+	}
+}
+
 
 
 

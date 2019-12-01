@@ -15,13 +15,13 @@ function shuffle(arr) {
 }
 function blockify(questions, blockLength) {
     var blocks = [];
-    for (var block = 0; block < Math.ceil(questions.length / blockLength); block++) {
-        blocks[block] = [];
+    for (var block_1 = 0; block_1 < Math.ceil(questions.length / blockLength); block_1++) {
+        blocks[block_1] = [];
         for (var i = 0; i < blockLength; i++) {
-            var index = block * blockLength + i;
+            var index = block_1 * blockLength + i;
             var question = questions[index];
             if (question)
-                blocks[block].push(question);
+                blocks[block_1].push(question);
         }
     }
     return blocks;
@@ -37,9 +37,9 @@ function checkLevel(level) {
 var mode = 1;
 function updateQueue() {
     if (blocks) {
-        var block = blocks.pop();
-        if (block)
-            queue = queue.concat(block);
+        var block_2 = blocks.pop();
+        if (block_2)
+            queue = queue.concat(block_2);
     }
     while (!checkLevel(mode)) {
         if (mode === 4)
@@ -63,14 +63,20 @@ function updateQueue() {
 function checkAnswer(answer) {
     var correct = currentQuestion.to.toLowerCase() === answer.toLowerCase();
     var delay = 1000;
+    if (currentQuestion.level === null)
+        currentQuestion.level = 1;
     if (correct) {
         notification.innerHTML = "Correct!";
         notification.setAttribute("color", "good");
+        if (currentQuestion.level < 4)
+            currentQuestion.level++;
     }
     else {
         notification.innerHTML = "Wrong! The correct answer was: " + currentQuestion.to;
         notification.setAttribute("color", "bad");
         delay = 2000;
+        if (currentQuestion.level > 1)
+            currentQuestion.level--;
     }
     notification.setAttribute("show", "true");
     setTimeout(function () {
@@ -85,6 +91,12 @@ function nextQuestion() {
     currentQuestion = queue.pop();
     document.getElementsByClassName("question")[0].innerHTML = currentQuestion.from;
     input.value = "";
+}
+function debug_levels() {
+    for (var _i = 0, questions_3 = questions; _i < questions_3.length; _i++) {
+        var q = questions_3[_i];
+        console.log(q.from + " " + q.level);
+    }
 }
 input.addEventListener("keyup", function (e) {
     if (e.keyCode === 13) {
