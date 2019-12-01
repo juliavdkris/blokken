@@ -16,10 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 import core.views
+import core.api_views
 
 urlpatterns = [
 	path('', core.views.index),
 	path('leren', core.views.leren),
+
+	path('api/getlisttest/<id>', core.api_views.getListTest),
+	path('api/storeprogress/<id>', core.api_views.storeProgress),
 
 	path('admin/', admin.site.urls),
 ]

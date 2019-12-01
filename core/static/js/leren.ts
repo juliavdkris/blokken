@@ -18,62 +18,9 @@ class Question {
 	}
 }
 
-let questions = shuffle([
-	new Question("q1", "a1"),
-	new Question("q2", "a2"),
-	new Question("q3", "a3"),
-	new Question("q4", "a4"),
-	new Question("q5", "a5"),
-	new Question("q6", "a6"),
-	new Question("q7", "a7"),
-	new Question("q8", "a8"),
-	new Question("q9", "a9"),
-	new Question("q10", "a10"),
-]);
-let blocks = blockify(questions, 3);
-
 
 function shuffle(arr) {
 	return arr.sort(() => Math.random() - 0.5);
-}
-
-
-/**
- * Merge two JSON object arrays from the List and Test models together into one question array that is used in this script
- * @param list Question JSON from a 'List' instance
- * @param progress Progress JSON from a 'Test' instance
- */
-function mergeJSON(list, progress) {
-	list.sort((a, b) => (a.id > b.id) ? 1 : -1);  // Sort both arrays by ID
-	progress.sort((a, b) => (a.id > b.id) ? 1 : -1);
-	let merged = [];
-
-	for (let question of list) {
-		let id = question.id;
-		let progressItem;
-		for (let item of progress) {  // Search for progress item with an ID matching the question
-			if (item.id === id) progressItem = item;
-		}
-		if (progressItem) merged.push({...question, ...progressItem});
-	}
-	return merged;
-}
-
-/**
- * Split the questions array used in this script into 'list' and 'progress' (and progress is then saved in the database)
- * @param questions
- */
-function splitJSON(questions) {
-	let progress = [];
-	for (let item of questions) {
-		progress.push({
-			"id": item.id,
-			"level": item.level,
-			"noRepeat": item.noRepeat,
-			"extraRepeat": item.extraRepeat
-		});
-	}
-	return progress;
 }
 
 
@@ -164,22 +111,38 @@ function nextQuestion() {
 }
 
 
-function nextLevel(queue: Question[]) {
-	for (const question of queue) {
-		if (question.level < 4) question.level++;
-	}
-}
+// function nextLevel(queue: Question[]) {
+// 	for (const question of queue) {
+// 		if (question.level < 4) question.level++;
+// 	}
+// }
 
 
-// Initialise things
-let queue = [];
-queue = updateQueue();
-
-let currentQuestion: Question = null;
-nextQuestion();
 
 input.addEventListener("keyup", function(e){
 	if (e.keyCode === 13) {
 		checkAnswer(input.value);
 	}
 });
+
+
+
+let questions = [];
+let blocks = [];
+let queue = [];
+let currentQuestion: Question = null;
+
+let id = window.location.hash.substr(1);
+let url = "/api/getlisttest/" + id;
+let xhr = new XMLHttpRequest();
+xhr.open("GET", url);
+xhr.responseType = "json";
+xhr.send();
+xhr.onload = function() {
+	// Initialise things
+	questions = shuffle(xhr.response.response);
+	blocks = blockify(questions, 3);
+
+	queue = updateQueue();
+	nextQuestion();
+}
