@@ -114,6 +114,24 @@ function nextQuestion() {
 }
 
 
+function getCookie(name) {
+	var value = "; " + document.cookie;
+	var parts = value.split("; " + name + "=");
+	if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
+
+function storeProgress() {
+	xhr.open("POST", "/api/storeprogress/"+id);
+	xhr.onload = function() {
+		console.log(xhr.status);
+	}
+	// xhr.withCredentials = true;
+	xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
+	xhr.send(JSON.stringify(questions));
+}
+
+
 function debug_levels() {
 	for (let q of questions) {
 		console.log(q.from + " " + q.level);
