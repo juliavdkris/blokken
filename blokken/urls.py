@@ -25,6 +25,7 @@ urlpatterns = [
 
 	path('api/getlisttest/<id>', core.api_views.getListTest),
 	path('api/storeprogress/<id>', core.api_views.storeProgress),
+	path('api/createlist', core.api_views.createList),
 
 	path('admin/', admin.site.urls),
 ]

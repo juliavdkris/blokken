@@ -94,9 +94,6 @@ function nextQuestion() {
 }
 function storeProgress() {
     xhr.open("POST", "/api/storeprogress/" + id);
-    xhr.onload = function () {
-        console.log(xhr.status);
-    };
     xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
     xhr.send(JSON.stringify(questions));
 }

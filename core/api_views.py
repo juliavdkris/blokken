@@ -60,7 +60,23 @@ def storeProgress(request, id):
 		# Save modified progress data
 		test.progress = splitted
 		test.save()
-		return HttpResponse('ok boomer')
+		return HttpResponse('Ok')
+
+	except json.decoder.JSONDecodeError:
+		return HttpResponse('Invalid JSON yo')
+
+
+
+def createList(request):
+	if request.method != 'POST':
+		return HttpResponse('Yo you should post to this thing')
+
+	try:
+		# Parse JSON and split data
+		list_parsed = json.loads(request.body)
+		list = models.List(user=request.user, name=list_parsed['name'], content=list_parsed['content'])
+		list.save()
+		return HttpResponse('Ok')
 
 	except json.decoder.JSONDecodeError:
 		return HttpResponse('Invalid JSON yo')
