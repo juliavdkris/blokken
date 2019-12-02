@@ -9,7 +9,7 @@ let notification = <HTMLDivElement>document.getElementsByClassName("notification
 class Question {
 	from: string;
 	to: string;
-	level: number = null;
+	level: number = null;  // TODO: get question data from two sources (List->question for [from,to], Test->progress for [level,noRepeat,extraRepeat])
 	noRepeat: boolean = false;
 	extraRepeat: boolean = false;
 	constructor(from: string, to: string) {
@@ -17,20 +17,6 @@ class Question {
 		this.to = to;
 	}
 }
-
-let questions = shuffle([
-    new Question("hoi", "tok"),
-    new Question("dag", "kad"),
-    new Question("hond", "lop"),
-    new Question("kat", "dop"),
-    new Question("huis", "rap"),
-    new Question("straat", "vad"),
-    new Question("poep", "lok"),
-    new Question("bal", "op"),
-    new Question("boek", "kalom"),
-    new Question("fles", "des"),
-]);
-let blocks = blockify(questions, 3);
 
 
 function shuffle(arr) {
@@ -128,11 +114,12 @@ function nextQuestion() {
 }
 
 
-// function nextLevel(queue: Question[]) {
-// 	for (const question of queue) {
-// 		if (question.level < 4) question.level++;
-// 	}
-// }
+function storeProgress() {
+	xhr.open("POST", "/api/storeprogress/"+id);
+	xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
+	xhr.send(JSON.stringify(questions));
+}
+
 
 function debug_levels() {
 	for (let q of questions) {
@@ -141,15 +128,32 @@ function debug_levels() {
 }
 
 
-// Initialise things
-let queue = [];
-queue = updateQueue();
 
-let currentQuestion: Question = null;
-nextQuestion();
 
 input.addEventListener("keyup", function(e){
 	if (e.keyCode === 13) {
 		checkAnswer(input.value);
 	}
 });
+
+
+
+let questions = [];
+let blocks = [];
+let queue = [];
+let currentQuestion: Question = null;
+
+let id = window.location.hash.substr(1);
+let url = "/api/getlisttest/" + id;
+let xhr = new XMLHttpRequest();
+xhr.open("GET", url);
+xhr.responseType = "json";
+xhr.send();
+xhr.onload = function() {
+	// Initialise things
+	questions = shuffle(xhr.response.response);
+	blocks = blockify(questions, 3);
+
+	queue = updateQueue();
+	nextQuestion();
+}

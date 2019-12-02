@@ -10,19 +10,6 @@ var Question = (function () {
     }
     return Question;
 }());
-var questions = shuffle([
-    new Question("hoi", "tok"),
-    new Question("dag", "kad"),
-    new Question("hond", "lop"),
-    new Question("kat", "dop"),
-    new Question("huis", "rap"),
-    new Question("straat", "vad"),
-    new Question("poep", "lok"),
-    new Question("bal", "op"),
-    new Question("boek", "kalom"),
-    new Question("fles", "des"),
-]);
-var blocks = blockify(questions, 3);
 function shuffle(arr) {
     return arr.sort(function () { return Math.random() - 0.5; });
 }
@@ -105,18 +92,35 @@ function nextQuestion() {
     document.getElementsByClassName("question")[0].innerHTML = currentQuestion.from;
     input.value = "";
 }
+function storeProgress() {
+    xhr.open("POST", "/api/storeprogress/" + id);
+    xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
+    xhr.send(JSON.stringify(questions));
+}
 function debug_levels() {
     for (var _i = 0, questions_3 = questions; _i < questions_3.length; _i++) {
         var q = questions_3[_i];
         console.log(q.from + " " + q.level);
     }
 }
-var queue = [];
-queue = updateQueue();
-var currentQuestion = null;
-nextQuestion();
 input.addEventListener("keyup", function (e) {
     if (e.keyCode === 13) {
         checkAnswer(input.value);
     }
 });
+var questions = [];
+var blocks = [];
+var queue = [];
+var currentQuestion = null;
+var id = window.location.hash.substr(1);
+var url = "/api/getlisttest/" + id;
+var xhr = new XMLHttpRequest();
+xhr.open("GET", url);
+xhr.responseType = "json";
+xhr.send();
+xhr.onload = function () {
+    questions = shuffle(xhr.response.response);
+    blocks = blockify(questions, 3);
+    queue = updateQueue();
+    nextQuestion();
+};
