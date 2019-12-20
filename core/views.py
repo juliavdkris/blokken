@@ -10,5 +10,5 @@ def leren(request):
 	return render(request, 'leren.html')
 
 
-def newlist(request):
+def new_list(request):
 	return render(request, 'newlist.html')

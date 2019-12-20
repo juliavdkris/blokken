@@ -6,7 +6,7 @@ import json
 
 
 
-def JSONerror(error):
+def json_error(error):
 	return JsonResponse({
 		'ok': False,
 		'error': error
@@ -14,16 +14,16 @@ def JSONerror(error):
 
 
 
-def getListTest(request, id):
+def get_list_test(request, id):
 	try:
 		test = models.Test.objects.get(id=id)
 	except ObjectDoesNotExist:
-		return JSONerror('Test not found')
+		return json_error('Test not found')
 
 	try:
 		list = models.List.objects.get(id=test.list.id)
 	except ObjectDoesNotExist:
-		return JSONerror('Invalid test: list not found')
+		return json_error('Invalid test: list not found')
 
 	merged = []
 	list_sorted = sorted(list.content, key=lambda item: item['id'])  # Sort the randomly shuffled list dictionary
@@ -37,7 +37,7 @@ def getListTest(request, id):
 
 
 
-def storeProgress(request, id):
+def store_progress(request, id):
 	if request.method != 'POST':
 		return HttpResponse('Yo you should post to this thing')
 
@@ -67,7 +67,7 @@ def storeProgress(request, id):
 
 
 
-def createList(request):
+def create_list(request):
 	if request.method != 'POST':
 		return HttpResponse('Yo you should post to this thing')
 
@@ -76,6 +76,9 @@ def createList(request):
 		list_parsed = json.loads(request.body)
 		list = models.List(user=request.user, name=list_parsed['name'], content=list_parsed['content'])
 		list.save()
+		progress = [{'id': item['id'], 'level': None, 'noRepeat': False, 'extraRepeat': False} for item in list_parsed['content']]  # List of items with id from new list and default level/noRepeat/extraRepeat values
+		test = models.Test(user=request.user, list=list, progress=progress)
+		test.save()
 		return HttpResponse('Ok')
 
 	except json.decoder.JSONDecodeError:

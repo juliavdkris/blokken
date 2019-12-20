@@ -21,11 +21,11 @@ import core.api_views
 urlpatterns = [
 	path('', core.views.index),
 	path('leren', core.views.leren),
-	path('lists/new', core.views.newlist),
+	path('lists/new', core.views.new_list),
 
-	path('api/getlisttest/<id>', core.api_views.getListTest),
-	path('api/storeprogress/<id>', core.api_views.storeProgress),
-	path('api/createlist', core.api_views.createList),
+	path('api/getlisttest/<id>', core.api_views.get_list_test),
+	path('api/storeprogress/<id>', core.api_views.store_progress),
+	path('api/createlist', core.api_views.create_list),
 
 	path('admin/', admin.site.urls),
 ]

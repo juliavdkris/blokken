@@ -8,7 +8,11 @@ class ListAdmin(admin.ModelAdmin):
 
 
 class TestAdmin(admin.ModelAdmin):
-	list_display = ['id', 'list']
+	list_display = ['id', 'list', 'get_list_name']
+
+	def get_list_name(self, obj):
+		return obj.list.name
+	get_list_name.short_description = 'List name'
 
 
 
