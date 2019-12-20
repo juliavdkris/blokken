@@ -1,0 +1,17 @@
+{% extends 'base/generic.html' %}
+{% load static %}
+
+
+{% block head %}
+	<link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock head %}
+
+
+{% block content %}
+	{% for test in tests %}
+	<a href="/leren#{{ test.id }}">{{ test.list.name }}</a>
+	{% endfor %}
+
+	<script src="{% static 'js/core.js' %}"></script>
+	<script src="{% static 'js/lists.js' %}"></script>
+{% endblock content %}

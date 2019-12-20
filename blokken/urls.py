@@ -21,6 +21,7 @@ import core.api_views
 urlpatterns = [
 	path('', core.views.index),
 	path('leren', core.views.leren),
+	path('lists', core.views.lists),
 	path('lists/new', core.views.new_list),
 
 	path('api/getlisttest/<id>', core.api_views.get_list_test),
