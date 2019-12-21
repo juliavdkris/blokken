@@ -150,8 +150,13 @@ xhr.open("GET", url);
 xhr.responseType = "json";
 xhr.send();
 xhr.onload = function() {
+	let res = xhr.response;
+	if (navigator.userAgent.indexOf("Trident") > -1) {  // Fuck you, IE
+		res = JSON.parse(res);
+	}
+
 	// Initialise things
-	questions = shuffle(xhr.response.response);
+	questions = shuffle(res.response);
 	blocks = blockify(questions, 3);
 
 	queue = updateQueue();
