@@ -119,7 +119,11 @@ xhr.open("GET", url);
 xhr.responseType = "json";
 xhr.send();
 xhr.onload = function () {
-    questions = shuffle(xhr.response.response);
+    var res = xhr.response;
+    if (navigator.userAgent.indexOf("Trident") > -1) {
+        res = JSON.parse(res);
+    }
+    questions = shuffle(res.response);
     blocks = blockify(questions, 3);
     queue = updateQueue();
     nextQuestion();
