@@ -111,6 +111,8 @@ function nextQuestion() {
 	currentQuestion = queue.pop();
 	document.getElementsByClassName("question")[0].innerHTML = currentQuestion.from;
 	input.value = "";
+
+	storeProgress();
 }
 
 
