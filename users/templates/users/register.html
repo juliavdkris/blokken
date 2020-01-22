@@ -1,0 +1,19 @@
+{% extends 'base/generic.html' %}
+
+
+{% block head %}
+	<style>
+		span.helptext, form ul {
+			display: none;
+		}
+	</style>
+{% endblock head %}
+
+
+{% block content %}
+	<form method="POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit">Sign up!</button>
+	</form>
+{% endblock content %}
