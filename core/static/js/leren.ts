@@ -1,5 +1,6 @@
 let input = <HTMLInputElement>document.getElementsByClassName("answer")[0];
 let notification = <HTMLDivElement>document.getElementsByClassName("notification")[0];
+let progress_bar = <HTMLProgressElement>document.getElementsByTagName("progress")[0];
 
 // Level 0: new block
 // Level 1: hard (seen, but wrong on first try)
@@ -76,6 +77,10 @@ function updateQueue() {
 
 	if (mode === 4) mode = 1; else mode++;  // Increment mode and flip back to 0 when at 4
 	questions = shuffle(questions);  // Randomise question order every time a new queue is added
+
+	progress_bar.value = 0;
+	queue_len = queue.length;
+
 	return queue;
 }
 
@@ -97,6 +102,9 @@ function checkAnswer(answer) {
 		if (currentQuestion.level > 1) currentQuestion.level--;
 	}
 	notification.setAttribute("show", "true");
+
+	progress_bar.value = 100 - (queue.length / queue_len * 100)
+
 	setTimeout(function() {
 		notification.setAttribute("show", "false");
 		nextQuestion();
@@ -117,6 +125,7 @@ function nextQuestion() {
 
 
 function storeProgress() {
+	let xhr = new XMLHttpRequest();
 	xhr.open("POST", "/api/storeprogress/"+id);
 	xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
 	xhr.send(JSON.stringify(questions));
@@ -143,6 +152,7 @@ input.addEventListener("keyup", function(e){
 let questions = [];
 let blocks = [];
 let queue = [];
+let queue_len = 0;
 let currentQuestion: Question = null;
 
 let id = window.location.hash.substr(1);

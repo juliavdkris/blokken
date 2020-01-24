@@ -1,5 +1,6 @@
 var input = document.getElementsByClassName("answer")[0];
 var notification = document.getElementsByClassName("notification")[0];
+var progress_bar = document.getElementsByTagName("progress")[0];
 var Question = (function () {
     function Question(from, to) {
         this.level = null;
@@ -58,6 +59,8 @@ function updateQueue() {
     else
         mode++;
     questions = shuffle(questions);
+    progress_bar.value = 0;
+    queue_len = queue.length;
     return queue;
 }
 function checkAnswer(answer) {
@@ -79,6 +82,7 @@ function checkAnswer(answer) {
             currentQuestion.level--;
     }
     notification.setAttribute("show", "true");
+    progress_bar.value = 100 - (queue.length / queue_len * 100);
     setTimeout(function () {
         notification.setAttribute("show", "false");
         nextQuestion();
@@ -94,6 +98,7 @@ function nextQuestion() {
     storeProgress();
 }
 function storeProgress() {
+    var xhr = new XMLHttpRequest();
     xhr.open("POST", "/api/storeprogress/" + id);
     xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
     xhr.send(JSON.stringify(questions));
@@ -112,6 +117,7 @@ input.addEventListener("keyup", function (e) {
 var questions = [];
 var blocks = [];
 var queue = [];
+var queue_len = 0;
 var currentQuestion = null;
 var id = window.location.hash.substr(1);
 var url = "/api/getlisttest/" + id;
