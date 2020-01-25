@@ -1,6 +1,9 @@
 var input = document.getElementsByClassName("answer")[0];
 var notification = document.getElementsByClassName("notification")[0];
 var progress_bar = document.getElementsByTagName("progress")[0];
+var timer_display = document.getElementById("timer");
+var POMODORO_TIME = 25;
+var POMODORO_BREAK_TIME = 3;
 var Question = (function () {
     function Question(from, to) {
         this.level = null;
@@ -109,6 +112,28 @@ function debug_levels() {
         console.log(q.from + " " + q.level);
     }
 }
+function timer(secs, max_time, mode) {
+    if (secs === max_time * 60) {
+        if (mode === "LEREN") {
+            alert("You can take a break now.");
+            timer(0, POMODORO_BREAK_TIME, "PAUZE");
+        }
+        else {
+            alert("Time to start learning again!");
+            timer(0, POMODORO_TIME, "LEREN");
+        }
+    }
+    else {
+        var secs_left = max_time * 60 - secs;
+        var timer_mins = Math.floor(secs_left / 60);
+        var timer_secs = (secs_left - timer_mins * 60).toString();
+        timer_secs = ("00" + timer_secs).slice(-2);
+        timer_display.innerHTML = mode + " " + timer_mins + ":" + timer_secs;
+        setTimeout(function () {
+            timer(++secs, max_time, mode);
+        }, 1000);
+    }
+}
 input.addEventListener("keyup", function (e) {
     if (e.keyCode === 13) {
         checkAnswer(input.value);
@@ -134,4 +159,5 @@ xhr.onload = function () {
     blocks = blockify(questions, 3);
     queue = updateQueue();
     nextQuestion();
+    timer(0, POMODORO_TIME, "LEREN");
 };

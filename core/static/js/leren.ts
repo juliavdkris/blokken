@@ -1,6 +1,10 @@
 let input = <HTMLInputElement>document.getElementsByClassName("answer")[0];
 let notification = <HTMLDivElement>document.getElementsByClassName("notification")[0];
 let progress_bar = <HTMLProgressElement>document.getElementsByTagName("progress")[0];
+let timer_display = <HTMLDivElement>document.getElementById("timer");
+
+const POMODORO_TIME = 25;
+const POMODORO_BREAK_TIME = 3;
 
 // Level 0: new block
 // Level 1: hard (seen, but wrong on first try)
@@ -139,6 +143,25 @@ function debug_levels() {
 }
 
 
+function timer(secs, max_time, mode) {
+	if (secs === max_time*60) {
+		if (mode === "LEREN") { alert("You can take a break now."); timer(0, POMODORO_BREAK_TIME, "PAUZE"); }
+		else { alert("Time to start learning again!"); timer(0, POMODORO_TIME, "LEREN"); }
+	}
+	else {
+		let secs_left = max_time*60 - secs
+		let timer_mins = Math.floor(secs_left / 60);
+		let timer_secs = (secs_left - timer_mins*60).toString();
+		timer_secs = ("00" + timer_secs).slice(-2);
+		timer_display.innerHTML = `${mode} ${timer_mins}:${timer_secs}`;
+
+		setTimeout(function() {
+			timer(++secs, max_time, mode);
+		}, 1000);
+	}
+}
+
+
 
 
 input.addEventListener("keyup", function(e){
@@ -173,4 +196,6 @@ xhr.onload = function() {
 
 	queue = updateQueue();
 	nextQuestion();
+
+	timer(0, POMODORO_TIME, "LEREN");
 }
