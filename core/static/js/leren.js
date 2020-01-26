@@ -91,6 +91,14 @@ function checkAnswer(answer) {
         nextQuestion();
     }, delay);
 }
+function forceCorrect() {
+    notification.innerHTML = "Correct!";
+    notification.setAttribute("color", "good");
+    if (currentQuestion.level < 4)
+        currentQuestion.level++;
+    if (currentQuestion.level < 4)
+        currentQuestion.level++;
+}
 function nextQuestion() {
     while (queue.length === 0) {
         queue = updateQueue();
@@ -144,6 +152,7 @@ var blocks = [];
 var queue = [];
 var queue_len = 0;
 var currentQuestion = null;
+var lastQuestion = null;
 var id = window.location.hash.substr(1);
 var url = "/api/getlisttest/" + id;
 var xhr = new XMLHttpRequest();

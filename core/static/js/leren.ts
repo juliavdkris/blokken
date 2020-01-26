@@ -14,7 +14,7 @@ const POMODORO_BREAK_TIME = 3;
 class Question {
 	from: string;
 	to: string;
-	level: number = null;  // TODO: get question data from two sources (List->question for [from,to], Test->progress for [level,noRepeat,extraRepeat])
+	level: number = null;
 	noRepeat: boolean = false;
 	extraRepeat: boolean = false;
 	constructor(from: string, to: string) {
@@ -107,12 +107,20 @@ function checkAnswer(answer) {
 	}
 	notification.setAttribute("show", "true");
 
-	progress_bar.value = 100 - (queue.length / queue_len * 100)
+	progress_bar.value = 100 - (queue.length / queue_len * 100);
 
 	setTimeout(function() {
 		notification.setAttribute("show", "false");
 		nextQuestion();
 	}, delay);
+}
+
+
+function forceCorrect() {
+	notification.innerHTML = "Correct!";
+	notification.setAttribute("color", "good");
+	if (currentQuestion.level < 4) currentQuestion.level++;
+	if (currentQuestion.level < 4) currentQuestion.level++;  // Increase level twice to compensate decrease
 }
 
 
@@ -149,7 +157,7 @@ function timer(secs, max_time, mode) {
 		else { alert("Time to start learning again!"); timer(0, POMODORO_TIME, "LEREN"); }
 	}
 	else {
-		let secs_left = max_time*60 - secs
+		let secs_left = max_time*60 - secs;
 		let timer_mins = Math.floor(secs_left / 60);
 		let timer_secs = (secs_left - timer_mins*60).toString();
 		timer_secs = ("00" + timer_secs).slice(-2);
@@ -164,6 +172,7 @@ function timer(secs, max_time, mode) {
 
 
 
+// Hook keyboard enter
 input.addEventListener("keyup", function(e){
 	if (e.keyCode === 13) {
 		checkAnswer(input.value);
@@ -177,6 +186,7 @@ let blocks = [];
 let queue = [];
 let queue_len = 0;
 let currentQuestion: Question = null;
+let lastQuestion: Question = null;
 
 let id = window.location.hash.substr(1);
 let url = "/api/getlisttest/" + id;
